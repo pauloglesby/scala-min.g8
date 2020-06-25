@@ -3,7 +3,7 @@ import sbt.Def
 
 lazy val buildSettings = inThisBuild(
   Seq(
-    scalaVersion := "2.12.11",
+    scalaVersion := "2.13.2",
     organization := "ly.analogical",
   )
 )
