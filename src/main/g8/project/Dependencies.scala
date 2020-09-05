@@ -1,7 +1,7 @@
 import sbt._
 
 object Dependencies {
-  lazy val catsVersion = "2.1.0"
+  lazy val catsVersion = "2.2.0"
 
   lazy val compilerPlugins: Seq[ModuleID] =
     Seq(
