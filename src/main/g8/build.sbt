@@ -35,6 +35,9 @@ lazy val root = (project in file("."))
     name := "project name here",
     description := "description here"
   )
+  .aggregate(
+    core
+  )
 
 lazy val core = (project in file("core"))
   .settings(baseSettings)
