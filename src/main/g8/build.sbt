@@ -1,6 +1,8 @@
 import Dependencies._
 import sbt.Def
 
+addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full)
+
 lazy val buildSettings = inThisBuild(
   Seq(
     scalaVersion := "2.13.2",
