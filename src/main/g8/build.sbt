@@ -10,6 +10,12 @@ lazy val buildSettings = inThisBuild(
   )
 )
 
+lazy val coverageSettings = Seq(
+  coverageEnabled.in(Test, test) := true,
+  coverageMinimum := 100,
+  coverageFailOnMinimum := true
+)
+
 lazy val lintingSettings = Seq(
   wartremoverErrors in (Compile, compile) ++= Warts
    .allBut(Wart.Var, Wart.ImplicitParameter, Wart.DefaultArguments, Wart.Overloading),
@@ -24,7 +30,7 @@ lazy val testSettings = Seq(
 )
 
 lazy val baseWithoutTestSettings = CompilerOptions.flags ++ buildSettings ++ lintingSettings
-lazy val baseSettings = baseWithoutTestSettings ++ testSettings
+lazy val baseSettings = baseWithoutTestSettings ++ coverageSettings ++ testSettings
 
 lazy val defaultAssemblySettings =
   baseAssemblySettings ++ Seq(
