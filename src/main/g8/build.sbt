@@ -32,11 +32,6 @@ lazy val testSettings = Seq(
 lazy val baseWithoutTestSettings = buildSettings ++ lintingSettings
 lazy val baseSettings = baseWithoutTestSettings ++ coverageSettings ++ testSettings
 
-lazy val defaultAssemblySettings =
-  baseAssemblySettings ++ Seq(
-    assembly / test := {}
-  )
-
 lazy val root = (project in file("."))
   .settings(baseSettings)
   .settings(
