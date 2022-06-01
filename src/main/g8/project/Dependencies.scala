@@ -13,9 +13,13 @@ object Dependencies {
     catsCore
   )
 
-  lazy val munit = "org.scalameta" %% "munit" % Versions.munit % Test
+  lazy val munit = "org.scalameta" %% "munit" % Versions.munit
+
+  lazy val testDependencies: Seq[ModuleID] = Seq(
+    munit
+  ).map(_ % Test)
 
   /* ------- MODULES --------- */
 
-  lazy val coreDependencies = baseDependencies ++ Seq(munit)
+  lazy val coreDependencies = baseDependencies ++ testDependencies
 }
