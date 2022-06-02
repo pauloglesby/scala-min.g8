@@ -48,8 +48,8 @@ lazy val preCommitCmds = Seq(
   "compile",
   "scalafixAll ExplicitResultTypes --check", // run ExplictResultTypes first and separately to avoid conflicts
   "scalafixAll --check",
-  "scalafmtAll --check",
-  "scalafmtSbt --check",
+  "scalafmtCheckAll",
+  "scalafmtSbtCheck",
   "scalastyle"
 )
 
