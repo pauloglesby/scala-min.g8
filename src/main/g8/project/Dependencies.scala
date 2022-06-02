@@ -3,6 +3,14 @@ import sbt._
 object Dependencies {
 
   object Versions {
+
+    object scala213 {
+      lazy val binary = "2.13"
+      lazy val full = "2.13.8"
+    }
+
+    lazy val cats = "2.7.0"
+    lazy val catsEffect = "3.3.12"
     lazy val cats = "2.7.0"
     lazy val munit = "1.0.0-M1"
   }

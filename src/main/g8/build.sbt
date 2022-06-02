@@ -3,10 +3,34 @@ import sbt.Def
 
 addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full)
 
+Global / bloopExportJarClassifiers := Some(Set("sources"))
+
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
+
+addCommandAlias("dev", "; tpolecatDevMode")
+addCommandAlias("ci", "; tpolecatCiMode")
+
+lazy val lintCmds = Seq(
+  "tpolecatCiMode",
+  "compile",
+  "scalafixAll ExplicitResultTypes", // run ExplictResultTypes first and separately to avoid conflicts
+  "scalafixAll",
+  "scalafmtAll",
+  "scalafmtSbt",
+  "scalastyle"
+)
+
+lazy val lintCmd = s"; ${lintCmds.mkString("; ")}"
+
+addCommandAlias("lint", lintCmd)
+
 lazy val buildSettings = inThisBuild(
   Seq(
-    scalaVersion := "2.13.8",
+    scalaVersion := Versions.scala213.full,
     organization := "ly.analogical",
+    semanticdbEnabled := true,
+    semanticdbVersion := scalafixSemanticdb.revision,
+    scalafixScalaBinaryVersion := Versions.scala213.binary
   )
 )
 
