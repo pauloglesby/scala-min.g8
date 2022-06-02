@@ -1,8 +1,0 @@
-- id: sbt-formatting
-  name: Format and fix source code via sbt & plugins
-  language: system
-  always_run: true
-  pass_filenames: false
-  verbose: false
-  entry: sbt
-  args: [';clean; lint']

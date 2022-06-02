@@ -1,14 +1,33 @@
 import Dependencies._
 import sbt.Def
 
-addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full)
-
-Global / bloopExportJarClassifiers := Some(Set("sources"))
-
-ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
+/**
+  * COMMAND SETTINGS
+  */
 
 addCommandAlias("dev", "; tpolecatDevMode")
 addCommandAlias("ci", "; tpolecatCiMode")
+
+lazy val scalafixCmds = Seq(
+  "scalafixAll ExplicitResultTypes", // run ExplictResultTypes first and separately to avoid conflicts
+  "scalafixAll"
+)
+
+addCommandAlias("fix", s"; ${scalafixCmds.mkString("; ")}")
+
+lazy val scalafmtCmds = Seq(
+  "scalafmtAll",
+  "scalafmtSbt"
+)
+
+addCommandAlias("fmt", s"; ${scalafmtCmds.mkString("; ")}")
+
+lazy val ciPrepCmds = Seq(
+  "tpolecatCiMode",
+  "compile"
+)
+
+lazy val scalastyleCmds = Seq("scalastyle")
 
 lazy val lintCmds = Seq(
   "tpolecatCiMode",
@@ -23,6 +42,31 @@ lazy val lintCmds = Seq(
 lazy val lintCmd = s"; ${lintCmds.mkString("; ")}"
 
 addCommandAlias("lint", lintCmd)
+
+lazy val preCommitCmds = Seq(
+  "tpolecatCiMode",
+  "compile",
+  "scalafixAll ExplicitResultTypes --check", // run ExplictResultTypes first and separately to avoid conflicts
+  "scalafixAll --check",
+  "scalafmtAll --check",
+  "scalafmtSbt --check",
+  "scalastyle"
+)
+
+lazy val preCommitCmd = s"; ${preCommitCmds.mkString("; ")}"
+
+// DO NOT CHANGE THE NAME OF THIS COMMAND; the pre-commit git hook greps for it
+addCommandAlias("preCommit", preCommitCmd)
+
+/**
+  * BUILD SETTINGS
+  */
+
+addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full)
+
+Global / bloopExportJarClassifiers := Some(Set("sources"))
+
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
 
 lazy val buildSettings = inThisBuild(
   Seq(
