@@ -7,19 +7,21 @@ import sbt.Def
 addCommandAlias("dev", "; tpolecatDevMode")
 addCommandAlias("ci", "; tpolecatCiMode")
 
+def toCmd(cmds: Seq[String]): String = s";${cmds.mkString(";")}"
+
 lazy val scalafixCmds = Seq(
   "scalafixAll ExplicitResultTypes", // run ExplictResultTypes first and separately to avoid conflicts
   "scalafixAll"
 )
 
-addCommandAlias("fix", s"; ${scalafixCmds.mkString("; ")}")
+addCommandAlias("fix", toCmd(scalafixCmds))
 
 lazy val scalafmtCmds = Seq(
   "scalafmtAll",
   "scalafmtSbt"
 )
 
-addCommandAlias("fmt", s"; ${scalafmtCmds.mkString("; ")}")
+addCommandAlias("fmt", toCmd(scalafmtCmds))
 
 lazy val ciPrepCmds = Seq(
   "tpolecatCiMode",
@@ -38,9 +40,7 @@ lazy val lintCmds = Seq(
   "scalastyle"
 )
 
-lazy val lintCmd = s"; ${lintCmds.mkString("; ")}"
-
-addCommandAlias("lint", lintCmd)
+addCommandAlias("lint", toCmd(lintCmds))
 
 lazy val preCommitCmds = Seq(
   "tpolecatCiMode",
@@ -52,28 +52,24 @@ lazy val preCommitCmds = Seq(
   "scalastyle"
 )
 
-lazy val preCommitCmd = s"; ${preCommitCmds.mkString("; ")}"
-
 // DO NOT CHANGE THE NAME OF THIS COMMAND; the pre-commit git hook greps for it
-addCommandAlias("preCommit", preCommitCmd)
+addCommandAlias("preCommit", toCmd(preCommitCmds))
 
 /** BUILD SETTINGS
   */
 
 addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full)
 
-Global / bloopExportJarClassifiers := Some(Set("sources"))
-Global / onChangedBuildSource := ReloadOnSourceChanges
-
-ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
-
 lazy val buildSettings = inThisBuild(
   Seq(
     scalaVersion := Versions.scala213.full,
     organization := "ly.analogical",
+    onChangedBuildSource := ReloadOnSourceChanges,
     semanticdbEnabled := true,
     semanticdbVersion := scalafixSemanticdb.revision,
-    scalafixScalaBinaryVersion := Versions.scala213.binary
+    bloopExportJarClassifiers := Some(Set("sources")),
+    scalafixScalaBinaryVersion := Versions.scala213.binary,
+    scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
   )
 )
 
