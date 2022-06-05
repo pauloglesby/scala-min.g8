@@ -9,11 +9,14 @@ object Dependencies {
       lazy val full = "2.13.8"
     }
 
+    lazy val ammonite = "2.5.4"
     lazy val cats = "2.7.0"
     lazy val catsEffect = "3.3.12"
     lazy val cats = "2.7.0"
     lazy val munit = "1.0.0-M1"
   }
+
+  lazy val ammonite: Seq[ModuleID] = Seq("com.lihaoyi" %% "ammonite" % Versions.ammonite % "test" cross CrossVersion.full)
 
   lazy val catsCore: ModuleID = "org.typelevel" %% "cats-core" % Versions.cats
 
