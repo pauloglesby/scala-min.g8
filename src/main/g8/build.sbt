@@ -60,11 +60,12 @@ addCommandAlias("preCommit", toCmd(preCommitCmds))
 
 addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full)
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 lazy val buildSettings = inThisBuild(
   Seq(
     scalaVersion := Versions.scala213.full,
     organization := "ly.analogical",
-    onChangedBuildSource := ReloadOnSourceChanges,
     semanticdbEnabled := true,
     semanticdbVersion := scalafixSemanticdb.revision,
     bloopExportJarClassifiers := Some(Set("sources")),
@@ -81,7 +82,15 @@ lazy val coverageSettings = Seq(
 
 lazy val lintingSettings = Seq(
   Compile / compile / wartremoverErrors ++= Warts
-    .allBut(Wart.Var, Wart.ImplicitParameter, Wart.DefaultArguments, Wart.Overloading),
+    .allBut(
+      Wart.Any,
+      Wart.DefaultArguments,
+      Wart.ImplicitParameter,
+      Wart.Nothing,
+      Wart.Overloading,
+      Wart.PublicInference, // Let scalafix handle these (ExplicitResultTypes is semantic rule so requires compilation to work first)
+      Wart.Var
+    ),
   scalastyleFailOnWarning := true
 )
 
