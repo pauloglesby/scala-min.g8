@@ -65,12 +65,12 @@ Global / cancelable := true
 
 lazy val buildSettings = inThisBuild(
   Seq(
-    scalaVersion := Versions.scala213.full,
+    scalaVersion := Scala213,
     organization := "ly.analogical",
     semanticdbEnabled := true,
     semanticdbVersion := scalafixSemanticdb.revision,
     bloopExportJarClassifiers := Some(Set("sources")),
-    scalafixScalaBinaryVersion := Versions.scala213.binary,
+    scalafixScalaBinaryVersion := Scala213.split(".").take(2).mkString("."),
     scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
   )
 )
@@ -90,7 +90,6 @@ lazy val lintingSettings = Seq(
       Wart.Nothing,
       Wart.Overloading,
       Wart.PublicInference, // Let scalafix handle these (ExplicitResultTypes is semantic rule so requires compilation to work first)
-      Wart.Var
     ),
   scalastyleFailOnWarning := true
 )
@@ -124,35 +123,13 @@ lazy val baseSettings = baseWithoutTestSettings ++ coverageSettings ++ testSetti
 
 lazy val buildSettings = inThisBuild(
   Seq(
-    scalaVersion := Versions.scala213.full,
+    scalaVersion := Scala213,
     organization := "ly.analogical",
     semanticdbEnabled := true,
     semanticdbVersion := scalafixSemanticdb.revision,
-    scalafixScalaBinaryVersion := Versions.scala213.binary
+    scalafixScalaBinaryVersion := Scala213.binary
   )
 )
-
-lazy val coverageSettings = Seq(
-  Test / test / coverageEnabled := true,
-  coverageMinimumStmtTotal := 100,
-  coverageFailOnMinimum := true
-)
-
-lazy val lintingSettings = Seq(
-  Compile / compile / wartremoverErrors ++= Warts
-   .allBut(Wart.Var, Wart.ImplicitParameter, Wart.DefaultArguments, Wart.Overloading),
-  scalastyleFailOnWarning := true
-)
-
-lazy val testSettings = Seq(
-  testFrameworks += new TestFramework("munit.Framework"),
-  Test / javaOptions ++= List("-Xss64m", "-Xmx2048m"),
-  Test / fork := true,
-  Test / parallelExecution := true,
-)
-
-lazy val baseWithoutTestSettings = buildSettings ++ lintingSettings
-lazy val baseSettings = baseWithoutTestSettings ++ coverageSettings ++ testSettings
 
 lazy val root = (project in file("."))
   .settings(baseSettings)
