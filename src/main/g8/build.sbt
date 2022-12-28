@@ -7,7 +7,7 @@ import sbt.Def
 addCommandAlias("dev", "; tpolecatDevMode")
 addCommandAlias("ci", "; tpolecatCiMode")
 
-def toCmd(cmds: Seq[String]): String = s";${cmds.mkString(";")}"
+def toCmd(cmds: Seq[String]): String = s";\${cmds.mkString(";")}"
 
 lazy val scalafixCmds = Seq(
   "scalafixAll ExplicitResultTypes", // run ExplictResultTypes first and separately to avoid conflicts
