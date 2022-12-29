@@ -121,16 +121,6 @@ lazy val testSettings = Seq(
 lazy val baseWithoutTestSettings = buildSettings ++ lintingSettings
 lazy val baseSettings = baseWithoutTestSettings ++ coverageSettings ++ testSettings
 
-lazy val buildSettings = inThisBuild(
-  Seq(
-    scalaVersion := Scala213,
-    organization := "ly.analogical",
-    semanticdbEnabled := true,
-    semanticdbVersion := scalafixSemanticdb.revision,
-    scalafixScalaBinaryVersion := Scala213.binary
-  )
-)
-
 lazy val root = (project in file("."))
   .settings(baseSettings)
   .settings(
