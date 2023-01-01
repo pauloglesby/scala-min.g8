@@ -13,7 +13,9 @@ object Dependencies {
 
   lazy val Scala213 = "2.13.10"
 
-  lazy val ammonite: Seq[ModuleID] = Seq("com.lihaoyi" %% "ammonite" % Versions.ammonite % "test" cross CrossVersion.full)
+  lazy val ammonite: Seq[ModuleID] = Seq(
+    "com.lihaoyi" %% "ammonite" % Versions.ammonite % "test" cross CrossVersion.full
+  )
 
   lazy val catsCore: ModuleID = "org.typelevel" %% "cats-core" % Versions.cats
 

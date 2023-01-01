@@ -70,7 +70,7 @@ lazy val buildSettings = inThisBuild(
     semanticdbEnabled := true,
     semanticdbVersion := scalafixSemanticdb.revision,
     bloopExportJarClassifiers := Some(Set("sources")),
-    scalafixScalaBinaryVersion := Scala213.split(".").take(2).mkString("."),
+    scalafixScalaBinaryVersion := "2.13",
     scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
   )
 )
@@ -114,7 +114,7 @@ lazy val testSettings = Seq(
       .get
       .modules
       .flatMap(_.artifacts)
-      .collect{case (a, f) if a.classifier == Some("sources") => f}
+      .collect { case (a, f) if a.classifier == Some("sources") => f }
   }
 )
 
